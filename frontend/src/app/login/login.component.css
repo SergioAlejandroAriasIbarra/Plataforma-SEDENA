@@ -1,0 +1,30 @@
+.login {
+  min-height: 100vh;
+}
+
+.bg-image {
+  background-image: url('https://www.animalpolitico.com/wp-content/uploads/2022/10/Sedena-ejercito-espia-investigacion.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.login-heading {
+  font-weight: 300;
+}
+
+.btn-login {
+  font-size: 0.9rem;
+  letter-spacing: 0.05rem;
+  padding: 0.75rem 1rem;
+  background-color: rgb(108, 132, 110);
+  border: 1px solid rgb(78, 90, 79);
+  transition-duration: 0.4s;
+}
+
+.btn-login:hover {
+  background-color: rgb(78, 90, 79);
+}
+
+.icono{
+  max-height: 70px;
+}
