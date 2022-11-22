@@ -7,15 +7,16 @@ admin.initializeApp({
 const db = admin.firestore();
 
 async function GetPersonal() {
+    let datos;
     let testing = await db.collection('modulo1').get().then((snapchot)=>{
         snapchot.docs.forEach(doc =>{
+            datos = doc.data();
             console.log(doc.data())
         })
     })
     //let testing = await db.collection('modulo1').
-
-    console.log(testing)
-    return testing
+    console.log("dato listo")
+    return datos
 }
 
 

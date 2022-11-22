@@ -14,7 +14,8 @@ export const environment = {
     authDomain: 'sedena-e5.firebaseapp.com',
     messagingSenderId: '919180900546',
   },
-    production: false
+    production: false,
+    apiUrl: 'http://localhost:3000/'
   };
   
   /*

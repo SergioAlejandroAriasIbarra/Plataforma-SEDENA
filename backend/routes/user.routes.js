@@ -2,12 +2,12 @@ const express = require('express')
 const router = express.Router()
 const db = require('../database/db.database')
  
-//Obtener personal
+
 router.get("/getpersonal", async (req, res, next)=>{
     const usuarios = await db.GetPersonal()
-    res.send(usuarios)
- })
+    res.status(200).send(usuarios)
 
+})
 
 router.post("/post", async (req, res, next)=>{
     //console.log(req.body.email)
