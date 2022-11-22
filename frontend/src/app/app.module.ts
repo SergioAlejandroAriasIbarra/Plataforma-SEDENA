@@ -6,20 +6,20 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CheckinListComponent } from './checkin-list/checkin-list.component';
-import { MainComponent } from './main/main.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideAuth,getAuth } from '@angular/fire/auth';
+import { MainSedenaComponent } from './main-sedena/main-sedena.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     CheckinListComponent,
-    MainComponent
+    MainSedenaComponent
   ],
   imports: [
     BrowserModule,
