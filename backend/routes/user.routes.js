@@ -2,9 +2,9 @@ const express = require('express')
 const router = express.Router()
 const db = require('../database/db.database')
  
-
-router.get("/getallusers", async (req, res, next)=>{
-    const usuarios = await db.getAllUsers()
+//Obtener personal
+router.get("/getpersonal", async (req, res, next)=>{
+    const usuarios = await db.GetPersonal()
     res.send(usuarios)
  })
 

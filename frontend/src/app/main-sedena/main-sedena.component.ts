@@ -10,6 +10,7 @@ export class MainSedenaComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    
   }
 
 }

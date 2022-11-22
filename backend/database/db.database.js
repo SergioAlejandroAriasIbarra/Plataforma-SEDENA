@@ -6,9 +6,8 @@ admin.initializeApp({
 })
 const db = admin.firestore();
 
-async function getAllUsers() {
+async function GetPersonal() {
     let testing = await db.collection('modulo1').get().then((snapchot)=>{
-        console.log(snapchot.docs)
         snapchot.docs.forEach(doc =>{
             console.log(doc.data())
         })
@@ -39,5 +38,5 @@ async function SendData(dataBody){
 
 module.exports = {
     SendData: SendData,
-    getAllUsers:getAllUsers
+    GetPersonal:GetPersonal
 }
