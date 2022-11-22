@@ -1,32 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { UserService } from 'src/app/service/user.service'
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
   warning = false;
   formReg: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(8)]]
+    password: ['']
     
-  }, {
-    validators: () => {
-      if (!this.formReg) return;
-      /*if (this.formReg.controls.password.value == this.formReg.controls.confirmpass.value) {
-        return null;
-      } else {
-        return {
-          confirmPassword: true
-        }
-      }*/
-    }
-  })
-  constructor(private formBuilder: FormBuilder) {
+  } 
+  )
+  constructor(private formBuilder: FormBuilder, 
+              private userService: UserService,
+              private router: Router) {
 
   }
+  ngOnInit(): void {
+  }
+
   FormLogin() {//Verificaciòn de login
     console.log('entra a la funcion')
     if (this.formReg.valid) {
@@ -35,11 +32,20 @@ export class LoginComponent {
         email: data.email,
         password: data.password
       }
-      console.log('form valido', dataUs);
+      this.userService.login(dataUs)
+      .then(response => {
+        console.log(response);
+        this.router.navigate(['/main']);
+      })
+      .catch(error => {console.log(error)
+        this.warning = true;
+      });
     }
     else{
       this.warning = true;
     }
   }
+
+  
 
 }
