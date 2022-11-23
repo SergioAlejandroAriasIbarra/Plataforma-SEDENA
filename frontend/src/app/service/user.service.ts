@@ -19,7 +19,7 @@ export class UserService {
   }
 
   getAllUsers():Promise<any>{
-    return this.http.get(environment.apiUrl + "main/getpersonal").toPromise();
+    return this.http.get(environment.apiUrl + "main/getupdate").toPromise();
   }
 
 }

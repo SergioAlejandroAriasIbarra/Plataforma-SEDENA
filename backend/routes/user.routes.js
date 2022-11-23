@@ -1,11 +1,17 @@
 const express = require('express')
 const router = express.Router()
 const db = require('../database/db.database')
+
  
 
-router.get("/getpersonal", async (req, res, next)=>{
-    const usuarios = await db.GetPersonal()
-    res.status(200).send(usuarios)
+
+router.get("/getupdate", async (req, res, next)=>{
+    
+    const idcard = await db.getidCardandUpdate();
+    
+    res.send(idcard)
+    //const usuarios = await db.GetPersonal()
+    //res.status(200).send(usuarios)
 
 })
 

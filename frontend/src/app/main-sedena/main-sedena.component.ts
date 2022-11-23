@@ -26,6 +26,7 @@ export class MainSedenaComponent implements OnInit {
   ngOnInit(): void {
     //console.log("EFEEEES")
     this.userService.getAllUsers().then(fListDep=>{
+      console.log(fListDep)
       this.personalList = [fListDep]
     }).catch(err =>{
       console.log("error al cargar los vuelos" + err);
