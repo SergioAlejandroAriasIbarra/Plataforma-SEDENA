@@ -7,7 +7,7 @@ import { UserService } from '../service/user.service';
   styleUrls: ['./main-sedena.component.css']
 })
 export class MainSedenaComponent implements OnInit {
-
+  unidades:any[] = ["Unidad 1","Unidad 2","Unidad 3", "Unidad 4"]
   pageActual:number = 1;
   inputBuscar:boolean = false;
 
@@ -20,18 +20,29 @@ export class MainSedenaComponent implements OnInit {
     this.reverse = !this.reverse;
   }
 
+  form = new FormGroup({
+    state: new FormControl(this.unidades[0]),
+  });
 
   constructor(private formBuilder:FormBuilder, private userService:UserService) { }
 
   ngOnInit(): void {
-    //console.log("EFEEEES")
+    
+    
     this.userService.getAllUsers().then(fListDep=>{
       console.log(fListDep)
-      this.personalList = [fListDep]
+      this.personalList = fListDep
     }).catch(err =>{
-      console.log("error al cargar los vuelos" + err);
+      console.log("error al cargar los agentes" + err);
     });
     
+  }
+
+  FormLogin(){
+    console.log("hola")
+  }
+  selectUnidad():void{
+    console.log("holaaaa")
   }
 
 }

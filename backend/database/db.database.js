@@ -1,7 +1,8 @@
-const { spawn } = require('child_process');
 const admin = require('firebase-admin')
 
 var serviceAccount = require("../sedena-e5-firebase-adminsdk-gvksw-7383559e3c.json");
+
+
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -11,48 +12,85 @@ admin.initializeApp({
 const db = admin.firestore();
 const dbEsp32 = admin.database(admin);
 
-
-async function getidCardandUpdate() {
-    //let idcard = await db.collection("UsersData").get();
-    /*dbEsp32.ref('UsersData').on('value',(snap)=>{
-        console.log(snap.val());
-    })*/
-    // let data = await dbEsp32.ref('UsersData').child('N0EGkw1oLIgnflKV4n3Jthevgtl2').get()
-    // console.log(data);
-    
+async function ValueSensor(usersData,child) {
     const data = await new Promise(res => {
-        dbEsp32.ref('UsersData').child('N0EGkw1oLIgnflKV4n3Jthevgtl2').on('value', (snap)=>{
-            //console.log('got val');
+        dbEsp32.ref('UsersData').child('N0EGkw1oLIgnflKV4n3Jthevgtl2').on('value', (snap) => {
             res(snap.val());
         })
     });
-    
-    let fecha = await db.collection('unidad1').doc('29097FC2').update({fecha: "2223323232323"})
-    
-    //console.log(update)
-    
-    // const data = dbEsp32.ref('UsersData').child('N0EGkw1oLIgnflKV4n3Jthevgtl2').once('o')
-    let user = await new Promise(res=>{
-        db.collection('unidad1').get().then((snapchot)=>{
-            //console.log(snapchot.docs)
-            snapchot.docs.forEach(doc =>{
-                res(doc.data())
+    return data
+}
+
+
+async function getidCardandUpdate(unidad, cardPersona,usersData,child) {
+    let person;
+    let newCheck = new Array();
+    let exist;
+
+    let data = await ValueSensor(usersData,child);
+
+    person = await getExistidCardPerson('unidad1', '29097FC2');
+
+    if (person != false && person.check[0] != data.DATE_TIME) {
+        newCheck = person.check;
+        newCheck.unshift(data.DATE_TIME ? data.DATE_TIME : 0);
+        person.check = newCheck;
+        //if(person.sensor == data.sensor)person.status = 4;
+        exist = await db.collection('unidad1').doc('29097FC2').update({ check: person.check })
+
+    }
+    let user = await new Promise(res => {
+        db.collection('unidad1').get().then((snapchot) => {
+            let arr = new Array();
+            snapchot.docs.forEach(doc => {
+                arr.push(doc.data())
+
             })
+            res(arr)
         })
     })
-    
-    
     return user;
-    /*const contacts = idcard.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-    return contacts*/
-    //console.log(idcard)
+
+}
+
+async function addNewPersonalwithIdCard(unidad,data, usersData,child) {
+
+    let prueba ={
+        lugar: 'unidad 1',
+        check: [],
+        img: '',
+        lname: 'Gonzalez Vazquez',
+        matricula: 'C-11121231',
+        status: 1,
+        puesto: 'Cavo',
+        fname: 'Daniel'
+      }
+    let dataCard = await ValueSensor(usersData,child);
+    console.log(dataCard)
+    let exist = await getExistidCardPerson(unidad,dataCard.RFID_CARD);
+    console.log(exist);
+    if(exist==false){
+        prueba.check.unshift(dataCard.DATE_TIME ? dataCard.DATE_TIME : 0)
+        const res = await db.collection(unidad).doc(dataCard.RFID_CARD).set(prueba);
+        return true
+    }
+    
+    return false
+}
+
+async function getExistidCardPerson(unidad, cardPersona) {
+    let get;
+    get = await db.collection(unidad).doc(cardPersona).get();
+    
+    if (!get.exists) {
+        return false
+    }
+    return get.data()
+
 }
 
 //TODO configuracion para firestore 
-async function GetPersonal() {
+/*async function GetPersonal() {
     let datos;
     let testing = await db.collection('unidad1').get().then((snapchot) => {
         snapchot.docs.forEach(doc => {
@@ -63,11 +101,11 @@ async function GetPersonal() {
     //let testing = await db.collection('modulo1').
     console.log("dato listo")
     return datos;
-}
+}*/
 
 
 
-async function loginStatus(email, password) {
+/*async function loginStatus(email, password) {
     let user = await client.db(dbName).collection(collectionName).findOne(
         { email: `${email}`, password: `${password}` }
     );
@@ -75,7 +113,7 @@ async function loginStatus(email, password) {
         return user
     else
         return null
-}
+}*/
 async function SendData(dataBody) {
     console.log(dataBody)
     let data = await db.ref('usuario').push(dataBody)
@@ -83,9 +121,11 @@ async function SendData(dataBody) {
 }
 
 
+
+
 module.exports = {
+    addNewPersonalwithIdCard:addNewPersonalwithIdCard,
     SendData: SendData,
-    GetPersonal: GetPersonal,
     getidCardandUpdate: getidCardandUpdate,
 
 

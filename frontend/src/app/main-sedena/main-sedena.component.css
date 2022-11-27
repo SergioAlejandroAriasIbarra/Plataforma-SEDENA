@@ -1,18 +1,21 @@
 .icono{
-    max-height: 45px;
-  }
-  .btn{
-    
-    color: white;
-    
-    border-radius: 100%;
-    
-  }
-  .btn:hover{
-    background-color: white;
-    color: rgb(108, 132, 110);
-    
-    border-radius: 100%;
-    
-  }
-  
+  max-height: 45px;
+}
+.btn{
+  color: white;
+  background-color: rgb(108, 132, 110);;
+  border-radius: 100%;
+}
+.btn:hover{
+  background-color: white;
+  color: rgb(108, 132, 110);
+  border-color: rgb(108, 132, 110);;
+  border-radius: 100%;
+}
+.thead-mil{
+background-color:rgb(78, 90, 79);
+color: white
+}
+.link-muted{
+color:rgb(108, 132, 110)
+}
