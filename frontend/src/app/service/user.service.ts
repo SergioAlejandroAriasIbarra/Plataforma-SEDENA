@@ -22,4 +22,15 @@ export class UserService {
     return this.http.get(environment.apiUrl + "main/getupdate").toPromise();
   }
 
+  addPersona(persona:any):Promise<any>{
+    const url = `${environment.apiUrl}main/post`;
+    return this.http.post(url,persona).toPromise();
+  }
+
+  deletePersona(persona:any):Promise<any>{
+    console.log(persona)
+    const url = `${environment.apiUrl}main/delete`;
+    return this.http.put(url,persona).toPromise();
+  }
+
 }

@@ -1,0 +1,68 @@
+<nav class="navbar navbar-expand-lg d-flex justify-content-around py-2">
+    <div class="d-flex flex-row">
+        <img class="icono"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/SEDENA_Logo_2019.svg/1280px-SEDENA_Logo_2019.svg.png"
+            alt="">
+    </div>
+</nav>
+
+<div class="container text-center" style="background-color: red;">
+    <div>
+        <h3>Asignar nueva tarjeta a un soldado</h3>
+        <p>Aqui podras agregar un nuevo soladado debes especificar cada uno de los campos</p>
+    </div>
+</div>
+<div class="container d-flex justify-content-center" style="background-color: gray;">
+    <div class="row d-flex flex-column m-4" style="background-color: magenta;">
+        <div class="form-group ">
+            <span class="w-100 avatar gd-warning"><img src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png"
+                    width="150" height="150" alt="."></span>
+            
+        </div>
+        <div *ngIf="res" class="alert alert-warning" role="alert">  Se cargó correctamente la imagen
+        </div>
+        <input type="file" (change)="UploadImage($event)">
+    </div>
+    <div class="row m-4">
+        <form [formGroup]="formReg" (submit)=" getImages2()">
+            <div class="form-group row">
+                <div>
+                    <div class="form-group" >
+                        <label for="floatingInput">Nombre</label>
+                        <input type="text" name="txtName" class="form-control" placeholder="Nombre" name="name" formControlName="name"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="floatingInput">Apellidos</label>
+                        <input type="text" name="txtName" class="form-control" placeholder="Apellidos" name="apellidos" formControlName="apellidos"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="floatingInput">Puesto</label>
+                        <input type="text" name="txtEmail" class="form-control" placeholder="Grado" name="puesto" formControlName="puesto"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="floatingInput">Matricula</label>
+                        <input type="text" name="txtPhone" class="form-control" placeholder="Matricula" name="matricula" formControlName="matricula"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="floatingInput">Unidad</label>
+                        <input type="text" name="txtPhone" class="form-control" placeholder="Unidad de Pertenencia" name="unidad" formControlName="unidad"
+                            value="" />
+                    </div>
+                    <div class="form-group">
+                        <div  class="alert alert-warning" role="alert">  Asegurese de pasar la tarjeta con la que se asociará al personal
+                        </div>
+                        
+                    </div>
+                    <div class="form-group">
+                        <div class="col">
+                            
+                            <button type="submit" class="btn btn-primary btn-block create-account">Agregar registro</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+</div>

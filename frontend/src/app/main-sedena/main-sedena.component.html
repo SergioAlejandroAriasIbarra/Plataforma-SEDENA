@@ -6,15 +6,15 @@
     </div>
     <div>
         <!--<h5> Unidad 1</h5>-->
-        <form class="form-inline my-2 my-lg-0" >
+       <!-- <form class="form-inline my-2 my-lg-0" [formGroup]="formReg" (submit)="FormRegistro()">
             <div class="form-group">
                 <select class="form-control" id="exampleFormControlSelect1">
-                    <option *ngFor="let item of unidades" >{{item}} </option>
-                    <!--<option>Todas las unidades</option>-->
+                    <option *ngFor="let item of unidades" [name]="item.val">{{item.unidad}} </option>
+                    <option>Todas las unidades</option>
                 </select>
             </div>
-            <button type="submit" (click)="selectUnidad()"> buscar</button>
-        </form>
+            <button type="submit"> buscar</button>
+        </form>-->
     </div>
     <div>
         <form class="form-inline my-2 my-lg-0"> <input class="form-control mr-sm-2" type="text" placeholder="Search">
@@ -24,9 +24,8 @@
     </div>
     <div>
         <button class="btn btn-secondary mx-3 rounded-circle" type="submit"><i class="fa fa-user-plus"
-                aria-hidden="true"></i></button>
-        <button class="btn btn-secondary mx-3 rounded-circle" type="submit"><i class="fa fa-file-text"
-                aria-hidden="true"></i></button>
+                aria-hidden="true" routerLink="/registro"></i></button>
+        <button class="btn btn-secondary mx-3 rounded-circle" type="submit" routerLink="/main"><i class="fa-regular fa-arrows-rotate"></i></button>
         <button class="btn btn-secondary mx-3 rounded-circle" type="submit"><i class="fa fa-send"
                 aria-hidden="true"></i></button>
         <button class="btn btn-secondary mx-3 rounded-circle" type="submit"><i class="fa fa-door-open"
@@ -53,24 +52,30 @@
                 <tr class="fila" *ngFor="let item of personalList">
                     <th scope="row">
                         <div><a href="#" data-abc="true"><span class="w-60 avatar gd-warning"><img
-                                        src="https://randomuser.me/api/portraits/men/4.jpg" width="100" height="100"
+                                         [src]="item.img" width="100" height="100"
                                         alt="."></span></a></div>
                     </th>
                     <td>{{item.fname +" "+ item.lname}}</td>
                     <td>{{item.puesto}} </td>
                     <td>{{item.matricula}} </td>
-                    <td>{{item.lugar}}</td>
+                    <td>Orig: {{item.origen}} <br> Now :{{item.lugar}}</td>
                     <td>
                         {{item.check[0]}}
                     </td>
                     <td class="text">
                         <span class=" status">
-                            <i style="color:green" class="fa fa-circle" aria-hidden="true"></i>
+                            <i style="color:green" *ngIf="item.color == 1" class="fa fa-circle" aria-hidden="true"></i>
+                        </span>
+                        <span class=" status">
+                            <i style="color:gray" *ngIf="item.color == 0" class="fa fa-circle" aria-hidden="true"></i>
+                        </span>
+                        <span class=" status">
+                            <i style="color: yellow" *ngIf="item.color == 2" class="fa fa-circle" aria-hidden="true"></i>
                         </span>
                     </td>
                     <td>
                         <button type="button" class="btn btn-primary btn-sm "><i class="fa fa-gear"></i></button>
-                        <button type="button" class="btn btn-primary btn-sm "><i class="fa fa-trash"></i></button>
+                        <button type="button" class="btn btn-primary btn-sm " (click)="eliminarRegistro(item.origen,item.idcard)"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
             </tbody>

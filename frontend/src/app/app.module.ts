@@ -17,13 +17,16 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { MainSedenaComponent } from './main-sedena/main-sedena.component';
 import { HttpClientModule } from '@angular/common/http';
+import { RegistroPersonasComponent } from './registro-personas/registro-personas.component';
+import { provideStorage,getStorage } from '@angular/fire/storage';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     CheckinListComponent,
-    MainSedenaComponent
+    MainSedenaComponent,
+    RegistroPersonasComponent
   ],
   imports: [
     BrowserModule,
@@ -36,6 +39,7 @@ import { HttpClientModule } from '@angular/common/http';
     provideAuth(() => getAuth()),
     NgxPaginationModule,
     HttpClientModule,
+    provideStorage(() => getStorage()),
   ],
   providers: [],
   bootstrap: [AppComponent]
