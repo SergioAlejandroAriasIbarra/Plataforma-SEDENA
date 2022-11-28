@@ -16,8 +16,6 @@ router.get("/getupdate", async (req, res, next)=>{
 })
 
 router.post("/post", async (req, res, next)=>{
-    //console.log(req.body.email)
-    //console.log(req.body.password)
     try {
         const sl = await db.addNewPersonalwithIdCard('unidad1',":v","realtimedatabase","hijodelrealtime")
         res.send(sl)
@@ -26,6 +24,7 @@ router.post("/post", async (req, res, next)=>{
         res.sendStatus(404)
     }
 })
+
 
 
 /*router.post('/post', (req, rest)=>{

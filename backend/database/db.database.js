@@ -12,6 +12,14 @@ admin.initializeApp({
 const db = admin.firestore();
 const dbEsp32 = admin.database(admin);
 
+
+async function UpdateRTDBwithidCardValid(idcard) {
+    let prueba= `{"${idcard}": true}`
+    const data = await dbEsp32.ref('UsersData').update(JSON.parse(prueba))
+    console.log("se escribió en Real Time Database")
+    
+}
+
 async function ValueSensor(usersData,child) {
     const data = await new Promise(res => {
         dbEsp32.ref('UsersData').child('N0EGkw1oLIgnflKV4n3Jthevgtl2').on('value', (snap) => {
@@ -30,7 +38,7 @@ async function getidCardandUpdate(unidad, cardPersona,usersData,child) {
     let data = await ValueSensor(usersData,child);
 
     person = await getExistidCardPerson('unidad1', '29097FC2');
-
+    
     if (person != false && person.check[0] != data.DATE_TIME) {
         newCheck = person.check;
         newCheck.unshift(data.DATE_TIME ? data.DATE_TIME : 0);
@@ -55,23 +63,15 @@ async function getidCardandUpdate(unidad, cardPersona,usersData,child) {
 
 async function addNewPersonalwithIdCard(unidad,data, usersData,child) {
 
-    let prueba ={
-        lugar: 'unidad 1',
-        check: [],
-        img: '',
-        lname: 'Gonzalez Vazquez',
-        matricula: 'C-11121231',
-        status: 1,
-        puesto: 'Cavo',
-        fname: 'Daniel'
-      }
     let dataCard = await ValueSensor(usersData,child);
     console.log(dataCard)
     let exist = await getExistidCardPerson(unidad,dataCard.RFID_CARD);
+    
     console.log(exist);
     if(exist==false){
-        prueba.check.unshift(dataCard.DATE_TIME ? dataCard.DATE_TIME : 0)
-        const res = await db.collection(unidad).doc(dataCard.RFID_CARD).set(prueba);
+        data.check.unshift(dataCard.DATE_TIME ? dataCard.DATE_TIME : 0)
+        await UpdateRTDBwithidCardValid(dataCard.RFID_CARD)
+        const res = await db.collection(unidad).doc(dataCard.RFID_CARD).set(data);
         return true
     }
     
@@ -124,6 +124,7 @@ async function SendData(dataBody) {
 
 
 module.exports = {
+    UpdateRTDBwithidCardValid:UpdateRTDBwithidCardValid,//QUITARRRR
     addNewPersonalwithIdCard:addNewPersonalwithIdCard,
     SendData: SendData,
     getidCardandUpdate: getidCardandUpdate,
