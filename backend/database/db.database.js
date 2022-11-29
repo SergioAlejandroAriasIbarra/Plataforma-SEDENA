@@ -15,6 +15,7 @@ const dbEsp32 = admin.database(admin);
 
 async function UpdateRTDBwithidCardValid(idcard) {
     let prueba= `{"${idcard}": true}`
+    console.log(prueba)
     const data = await dbEsp32.ref('UsersData').update(JSON.parse(prueba))
     console.log("se escribió en Real Time Database")
     
@@ -56,27 +57,42 @@ function parseDatefun(fecha,status) {
 
 }
 
+async function buscar(idcard) {
+    let person =await getExistidCardPerson("unidad1", idcard);
+    //
+    if(person == false){
+        let person2 = await getExistidCardPerson("unidad2", idcard);
+        if(person2 == false){
+            return false
+        }
+        return person2
+    }
+    return person;
+    
+}
+
 async function getidCardandUpdate(unidad,usersData,child) {
     let person;
     let newCheck = new Array();
     let exist;
- 
+    
     let data = await ValueSensor(usersData,child);
 
-    person = await getExistidCardPerson(unidad, data.RFID_CARD);
+    person = await buscar(data.RFID_CARD)
     
     if (person != false && person.check[0] != data.DATE_TIME) {
         newCheck = person.check;
         newCheck.unshift(data.DATE_TIME ? data.DATE_TIME : 0);
         person.check = newCheck;
-        
+        person.lugar = child =="base1"?"unidad 1":"unidad 2";
         let otro = parseDatefun(data.DATE_TIME,person.status)
         console.log(otro)
         person.status = otro.status;
         person.color = otro.color;
         console.log("se paso por aqui")
-        exist = await db.collection(unidad).doc(data.RFID_CARD).update(person)
-
+        console.log(person)
+        exist = await db.collection(person.origen).doc(data.RFID_CARD).update(person)
+        console.log("aqui truena")
     }
     let user = await new Promise(res => {
         db.collection(unidad).get().then((snapchot) => {
@@ -103,8 +119,9 @@ async function addNewPersonalwithIdCard(unidad,data, usersData,child) {
     if(exist==false){
         console.log("otroooo");
         data.check.unshift(dataCard.DATE_TIME ? dataCard.DATE_TIME : 0)
-        person.idcard = dataCard.RFID_CARD;
+        data.idcard = dataCard.RFID_CARD; 
         await UpdateRTDBwithidCardValid(dataCard.RFID_CARD)
+        
         const res = await db.collection(unidad).doc(dataCard.RFID_CARD).set(data);
         return true
     }
@@ -114,6 +131,7 @@ async function addNewPersonalwithIdCard(unidad,data, usersData,child) {
 
 async function getExistidCardPerson(unidad, cardPersona) {
     let get;
+    
     get = await db.collection(unidad).doc(cardPersona).get();
     
     if (!get.exists) {
@@ -126,7 +144,9 @@ async function getExistidCardPerson(unidad, cardPersona) {
 async function deleteidCard(unidad,idcard) {
     //console.log(unidad)
     //console.log(idcard);
+    
     try {
+        const delRTDB = await deleteidCardRTDB(idcard);
         const del = await db.collection(unidad).doc(idcard).delete();
         console.log("se elminino dato"+idcard)
         return true
@@ -135,6 +155,18 @@ async function deleteidCard(unidad,idcard) {
         return false
     }
     
+    
+}
+
+async function deleteidCardRTDB(idcard) {
+    try {
+        const del = await dbEsp32.ref("UsersData").child(idcard).remove();
+        console.log("dato eliminado de RTDB");
+        return true
+    } catch (error) {
+        console.log("no se hizo nada en RTDB");
+        return false
+    }
     
 }
 
