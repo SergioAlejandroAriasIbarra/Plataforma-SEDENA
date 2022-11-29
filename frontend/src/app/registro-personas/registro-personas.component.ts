@@ -13,6 +13,8 @@ export class RegistroPersonasComponent implements OnInit {
   i : number;
   res : boolean = false;
   idcard:string = "";
+  imgID:string = "";
+  urlcargada:string = "https://cdn-icons-png.flaticon.com/512/1946/1946429.png";
 
   formReg: FormGroup = this.formBuilder.group({
     name: ['', [Validators.required]],
@@ -39,6 +41,7 @@ export class RegistroPersonasComponent implements OnInit {
     const file = $event.target.files[0];
     console.log(file);
     const imgRef = ref(this.storage, `images/${this.i+".jpg"}`);
+    this.imgID = `images/${this.i+".jpg"}`;
     uploadBytes(imgRef, file)
     .then(response => {
     console.log(response)
@@ -62,13 +65,14 @@ export class RegistroPersonasComponent implements OnInit {
           
           console.log("////////ENTRA AQUII/////////")
           const url = await getDownloadURL(item);
-          this.FormRegistro(url)
+          this.FormRegistro(url,this.imgID)
         }
         console.log(this.i+" "+a);
       const url = await getDownloadURL(item);
       this.images.push(url)
       a++;
       }
+      this.router.navigate(['/main']);
       })
       .catch(error => console.log(error));
       let a = this.images.length
@@ -94,8 +98,26 @@ export class RegistroPersonasComponent implements OnInit {
         console.log(a);
         console.log(this.images[a-1])
         }
+        getImages3(){
+          const imageRef = ref(this.storage, 'images');
+          listAll(imageRef)
+          .then(async response =>{
+          console.log(response);
+          this.images =[];
+          this.i = response.items.length;
+          for(let item of response.items){
+          const url = await getDownloadURL(item);
+          this.images.push(url)
+          }
+          this.urlcargada = this.images[this.i-1];
+          })
+          .catch(error => console.log(error));
+          let a = this.images.length
+          console.log(a);
+          console.log(this.images[a-1])
+          }
 
-  FormRegistro(url:string) {
+  FormRegistro(url:string,imgID:string) {
     console.log("hola")
     if (this.formReg.valid) {
       
@@ -105,12 +127,13 @@ export class RegistroPersonasComponent implements OnInit {
       
       let dataUsuario = {
         img: url,
+        imgID: imgID,
         puesto: data.puesto,
         check: [],
-        lname: data.name,
+        lname: data.apellidos,
         matricula: data.matricula,
         idcard: this.idcard,
-        fname: data.apellidos,
+        fname: data.name,
         lugar: temp,
         origen: temp,
         status: 0,
@@ -120,7 +143,7 @@ export class RegistroPersonasComponent implements OnInit {
       console.log("//////////////////////////////");
       
       console.log(dataUsuario)
-      this.router.navigate(['/main']);
+      //this.router.navigate(['/main']);
     }
   }
 

@@ -1,27 +1,28 @@
-<nav class="navbar navbar-expand-lg d-flex justify-content-around py-2">
-    <div class="d-flex flex-row">
+<nav class="navbar navbar-expand-lg d-flex justify-content-around py-2 mb-3"  style="background-color: rgb(73, 58, 58 );">
+    <div class="d-flex flex-row" style="background-color: rgb(241, 232, 232);">
         <img class="icono"
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/SEDENA_Logo_2019.svg/1280px-SEDENA_Logo_2019.svg.png"
             alt="">
     </div>
 </nav>
-
-<div class="container text-center" style="background-color: red;">
+<div class="container text-center title py-3 mb-2 rounded" >
     <div>
-        <h3>Asignar nueva tarjeta a un soldado</h3>
+        <h3><b>Asignar nueva tarjeta a un soldado</b></h3>
         <p>Aqui podras agregar un nuevo soladado debes especificar cada uno de los campos</p>
     </div>
 </div>
-<div class="container d-flex justify-content-center" style="background-color: gray;">
-    <div class="row d-flex flex-column m-4" style="background-color: magenta;">
+
+<div class="container d-flex justify-content-center rounded" style="background-color: rgba(91, 122, 91, 0.705);">
+    <div class="row d-flex flex-column m-4">
         <div class="form-group ">
-            <span class="w-100 avatar gd-warning"><img src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png"
+            <span class="w-100 avatar gd-warning"><img [src]="urlcargada"
                     width="150" height="150" alt="."></span>
-            
         </div>
         <div *ngIf="res" class="alert alert-warning" role="alert">  Se cargó correctamente la imagen
+            <button type="submit" class="btn btn-primary btn-block create-account" (click)="getImages3()">Ver imagen</button>
         </div>
         <input type="file" (change)="UploadImage($event)">
+        
     </div>
     <div class="row m-4">
         <form [formGroup]="formReg" (submit)=" getImages2()">
@@ -51,18 +52,17 @@
                     <div class="form-group">
                         <div  class="alert alert-warning" role="alert">  Asegurese de pasar la tarjeta con la que se asociará al personal
                         </div>
-                        
                     </div>
                     <div class="form-group">
                         <div class="col">
                             
                             <button type="submit" class="btn btn-primary btn-block create-account">Agregar registro</button>
+                            <button class="btn btn-primary btn-block create-account" style="background-color: rgb(182, 112, 112);" routerLink="/main" >Cancelar</button>
+
                         </div>
                     </div>
                 </div>
             </div>
         </form>
     </div>
-
-
 </div>

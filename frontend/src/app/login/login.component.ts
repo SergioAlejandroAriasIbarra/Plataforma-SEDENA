@@ -34,7 +34,10 @@ export class LoginComponent implements OnInit{
       }
       this.userService.login(dataUs)
       .then(response => {
-        console.log(response);
+        console.log(response.user.email);
+        if(response.user.email){
+          
+        }
         this.router.navigate(['/main']);
       })
       .catch(error => {console.log(error)

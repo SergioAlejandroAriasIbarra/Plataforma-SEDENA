@@ -1,0 +1,16 @@
+.icono{
+    max-height: 45px;
+  }
+  .btn{
+    color: white;
+    background-color: rgb(108, 132, 110);;
+  }
+  .btn:hover{
+    background-color: white;
+    color: rgb(108, 132, 110);
+    border-color: rgb(108, 132, 110);;
+  }
+  .title{
+  background-color:rgb(78, 90, 79);
+  color: white
+  }

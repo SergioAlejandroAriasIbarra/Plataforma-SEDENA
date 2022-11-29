@@ -14,7 +14,7 @@
                 <h2 class="login-heading">Ingreso a la Plataforma</h2>
                 <hr style="height:1px;border-width:0;color:gray;background-color:gray">
                 <!-- Sign In Form -->
-                <div *ngIf="warning" class="alert alert-warning" role="alert">  A simple warning alert—check it out!
+                <div *ngIf="warning" class="alert alert-warning" role="alert">  El correo o la contraseña son incorrectos
                 </div><!-- div para desplegar Warning-->
                 <form [formGroup]="formReg" (submit)="FormLogin()">
                   <div class="form-floating mb-2">

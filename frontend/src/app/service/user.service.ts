@@ -33,4 +33,13 @@ export class UserService {
     return this.http.put(url,persona).toPromise();
   }
 
+  getunaUnidad(dato:any):Promise<any>{
+    const url = `${environment.apiUrl}main/getunidad1`;
+    return this.http.get(url).toPromise();
+  }
+
+  getunaUnidad2(dato:any):Promise<any>{
+    const url = `${environment.apiUrl}main/getunidad2`;
+    return this.http.get(url).toPromise();
+  }
 }
